@@ -568,7 +568,27 @@ def auto_load_data():
             app.logger.error(f"Failed to auto-load CSV: {e}")
 
 
+@app.route('/version')
+def version():
+    from datetime import datetime
+    return jsonify({
+        'version': '2.0',
+        'deployment_method': 'GitHub Actions + AWS SSM',
+        'build_date': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        'assignment': 'Automated EC2 Deployment'
+    })
+
+@app.route('/health')
+def health():
+    from datetime import datetime
+    return jsonify({
+        'status': 'healthy',
+        'version': '2.0',
+        'deployment_method': 'automated',
+        'timestamp': datetime.now().isoformat()
+    })
+
 if __name__ == '__main__':
     # Auto-load CSV and audio files on startup
     auto_load_data()
-    app.run(debug=True, host='0.0.0.0', port=3000)
+    app.run(debug=True, host='0.0.0.0', port=5000)
